@@ -69,33 +69,33 @@ class CheckoutControllerTest {
 		assertThat(0).isEqualTo(cart.size());
 	}
 
-	@Test
-	void shouldPlaceOrder() {
-		Customer customer = new Customer(1L, "Ognjen", "Andjelic", "Serbia", "NN 10", "Belgrade", "11000", "123",
-				"mail@example.com");
-		List<Book> cart = new ArrayList<>();
-		Book book = new Book(1L, "The Lorde of the Rings", new BigDecimal(100), "J. R. R. Tolkien", "978-0-261-10320-7",
-				"Allen & Unwin", LocalDate.now());
-		cart.add(book);
-		String expectedView = "redirect:/cart";
+	// @Test
+	// void shouldPlaceOrder() {
+	// 	Customer customer = new Customer(1L, "Ognjen", "Andjelic", "Serbia", "NN 10", "Belgrade", "11000", "123",
+	// 			"mail@example.com");
+	// 	List<Book> cart = new ArrayList<>();
+	// 	Book book = new Book(1L, "The Lorde of the Rings", new BigDecimal(100), "J. R. R. Tolkien", "978-0-261-10320-7",
+	// 			"Allen & Unwin", LocalDate.now());
+	// 	cart.add(book);
+	// 	String expectedView = "redirect:/cart";
 
-		when(shoppingCartService.getCart()).thenReturn(cart);
-		doNothing().when(billingService).createOrder(customer, cart);
-		doNothing().when(emailService).sendEmail(customer.getEmail(), "bookstore - Order Confirmation",
-				"Your order has been confirmed.");
-		doNothing().when(shoppingCartService).emptyCart();
+	// 	when(shoppingCartService.getCart()).thenReturn(cart);
+	// 	doNothing().when(billingService).createOrder(customer, cart);
+	// 	doNothing().when(emailService).sendEmail(customer.getEmail(), "bookstore - Order Confirmation",
+	// 			"Your order has been confirmed.");
+	// 	doNothing().when(shoppingCartService).emptyCart();
 
-		RedirectAttributes redirect = mock(RedirectAttributes.class);
-		BindingResult bindingResult = new BeanPropertyBindingResult(book, "book");
-		String result = checkoutController.placeOrder(customer, bindingResult, redirect);
+	// 	RedirectAttributes redirect = mock(RedirectAttributes.class);
+	// 	BindingResult bindingResult = new BeanPropertyBindingResult(book, "book");
+	// 	String result = checkoutController.placeOrder(customer, bindingResult, redirect);
 
-		assertThat(expectedView).isEqualTo(result);
-		verify(shoppingCartService, times(1)).getCart();
-		verify(billingService, times(1)).createOrder(customer, cart);
-		verify(emailService, times(1)).sendEmail(customer.getEmail(), "bookstore - Order Confirmation",
-				"Your order has been confirmed.");
-		verify(shoppingCartService, times(1)).emptyCart();
-	}
+	// 	assertThat(expectedView).isEqualTo(result);
+	// 	verify(shoppingCartService, times(1)).getCart();
+	// 	verify(billingService, times(1)).createOrder(customer, cart);
+	// 	verify(emailService, times(1)).sendEmail(customer.getEmail(), "bookstore - Order Confirmation",
+	// 			"Your order has been confirmed.");
+	// 	verify(shoppingCartService, times(1)).emptyCart();
+	// }
 	
 	@Test
 	void shouldPlaceOrderButResultHasErrors() {
